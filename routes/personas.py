@@ -1,11 +1,9 @@
 from fastapi import APIRouter
-from models.persona import Persona
+from services.ai_service import generate_personas
 
 router = APIRouter()
 
 @router.post("/generate")
-def generate_personas(count: int, demographic: str):
-    return {
-        "message": f"will generate {count} personas for {demographic}",
-        "status": "ok"
-    }
+def generate(count: int, demographic: str):
+    result = generate_personas(count, demographic)
+    return {"raw": result}
