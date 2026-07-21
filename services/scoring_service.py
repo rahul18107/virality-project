@@ -4,7 +4,14 @@ def calculate_virality_score(reactions: list):
     total = len(reactions)
     
     if total == 0:
-        return 0
+        return {
+            "score": 0,
+            "label": "💀 Low Engagement",
+            "like_rate": 0,
+            "comment_rate": 0,
+            "share_rate": 0,
+            "avg_watch_percentage": 0
+        }
     
     # count engagements
     total_likes = sum(1 for r in reactions if r["reaction"]["liked"])

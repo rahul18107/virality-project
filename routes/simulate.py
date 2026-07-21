@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
-from services.reaction_service import get_persona_reaction
+from services.reaction_service import get_batch_reactions
 from services.ai_service import generate_personas
 from services.scoring_service import calculate_virality_score
 import json
@@ -40,14 +40,17 @@ def run_simulation(input: SimulationInput):
         personas = json.loads(personas_raw)
         
         # get reactions
+
+        batch_reactions = get_batch_reactions(personas, content)
         reactions = []
-        for persona in personas:
-            reaction = get_persona_reaction(persona, content)
+        for i, persona in enumerate(personas):
+            if i >= len(batch_reactions):
+                break
             reactions.append({
                 "persona": persona["name"],
                 "age": persona["age"],
                 "region": persona["region"],
-                "reaction": reaction
+                "reaction": batch_reactions[i]
             })
         
         # score this wave
