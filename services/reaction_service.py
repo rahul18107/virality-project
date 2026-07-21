@@ -58,7 +58,7 @@ def get_batch_reactions(personas: list, content: dict):
     for _ in range(3):
             with httpx.Client() as client:
                 response = client.post(
-                    f"https://api.cloudflare.com/client/v4/accounts/{ACCOUNT_ID}/ai/run/@cf/meta/llama-3.2-8b-instruct",
+                    f"https://api.cloudflare.com/client/v4/accounts/{ACCOUNT_ID}/ai/run/@cf/meta/llama-3.1-8b-instruct",
                     headers={"Authorization": f"Bearer {API_TOKEN}"},
                     json={
                         "messages": [
@@ -67,7 +67,7 @@ def get_batch_reactions(personas: list, content: dict):
                         ],
                         "max_tokens": 400 * len(personas) + 200
                     },
-                    timeout=60.0
+                    timeout=300.0
                 )
 
                 if response.status_code != 200:
@@ -84,6 +84,9 @@ def get_batch_reactions(personas: list, content: dict):
                 if response_text is None:
                     last_error = f"No 'response' field: {result!r}"
                     continue
+
+                if isinstance(response_text, list):
+                        return response_text
 
                 if isinstance(response_text, dict):
                         return response_text
