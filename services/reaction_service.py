@@ -49,6 +49,8 @@ def get_batch_reactions(personas: list, content: dict):
             "commented": true or false,
             "comment": "their comment or null",
             "shared": true or false,
+            "shared_to": ["name1", "name2"] or empty list if not shared,
+            "in_target": true if their interests match the content category else false,
             "reason": "one sentence why"
         }}
     ]

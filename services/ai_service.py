@@ -1,3 +1,5 @@
+import base64
+
 import httpx
 import os
 import json
@@ -55,3 +57,53 @@ def generate_personas(count: int, demographic: str):
                 continue
 
         raise ValueError(f"Model returned invalid JSON after 3 attempts: {last_error}")
+    
+
+
+def analyze_video(frames: list):
+     with httpx.Client() as client:
+        response = client.post(
+            f"https://api.cloudflare.com/client/v4/accounts/{ACCOUNT_ID}/ai/run/@cf/meta/llama-4-scout-17b-16e-instruct",
+            headers={"Authorization": f"Bearer {API_TOKEN}"},
+             json={
+                "messages": [
+                    {
+                        "role": "user",
+                        "content": [
+                            {
+                                "type": "image_url",
+                                "image_url": {
+                                    "url": f"data:image/jpeg;base64,{frames[0]}"
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": "Analyze this social media reel frame. Describe the main topic, mood, target audience and content category in 2-3 sentences."
+                            }
+                        ]
+                    }
+                ]
+            },
+            timeout=60.0
+        )
+        result = response.json()
+        print("VISION RESULT:", result)
+        return  result["result"]["response"]
+     
+def transcribe_audio(audio_path: str):
+    with open(audio_path, "rb") as f:
+        audio_bytes = f.read()
+    
+    with httpx.Client() as client:
+        response = client.post(
+            f"https://api.cloudflare.com/client/v4/accounts/{ACCOUNT_ID}/ai/run/@cf/openai/whisper",
+            headers={
+                "Authorization": f"Bearer {API_TOKEN}",
+                "Content-Type": "application/octet-stream"
+            },
+            content=audio_bytes,
+            timeout=120.0
+        )
+        result = response.json()
+        print("WHISPER RESULT:", result)
+        return result["result"]["text"]
