@@ -1,10 +1,10 @@
-from fastapi import APIRouter,UploadFile, File
+import random
+from fastapi import APIRouter,UploadFile, File, Form
 from pydantic import BaseModel
 from services.reaction_service import get_batch_reactions
 from services.ai_service import generate_personas,analyze_video,transcribe_audio
 from services.video_service import extract_frames, extract_audio
 from services.scoring_service import calculate_virality_score
-from services.layout_service import generate_positions
 import json
 import shutil
 import os
@@ -15,8 +15,8 @@ router = APIRouter()
 
 @router.post("/run")
 async def run_simulation(video: UploadFile = File(...),
-    persona_count: int = 3,
-    demographic: str = "india_18_25"):
+    persona_count: int = Form(3),
+    demographic: str = Form("india_18_25")):
 
 
     # step 1: save video temporarily
@@ -60,19 +60,16 @@ async def run_simulation(video: UploadFile = File(...),
         # get reactions
 
         batch_reactions = get_batch_reactions(personas, content)
-        # spread out graph positions so personas don't land on top of each other
-        positions = generate_positions(min(len(personas), len(batch_reactions)))
         reactions = []
         for i, persona in enumerate(personas):
             if i >= len(batch_reactions):
                 break
-            x, y = positions[i]
             reactions.append({
                 "persona": persona["name"],
                 "age": persona["age"],
                 "region": persona["region"],
-                "x": x,
-                "y": y,
+                "x": random.randint(100, 900),  # random position for graph
+                "y": random.randint(100, 600),
                 "reaction": batch_reactions[i]
             })
         
