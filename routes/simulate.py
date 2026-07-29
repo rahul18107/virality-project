@@ -42,7 +42,7 @@ async def run_simulation(video: UploadFile = File(...),
         "description": full_description,
         "category": "auto-detected",
         "duration_seconds": 0,
-        "hook": visual_description[:100]
+        "hook": visual_description[:100] if visual_description else "No visual description"
     }
     
     all_waves = []

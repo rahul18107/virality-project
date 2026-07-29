@@ -61,34 +61,38 @@ def generate_personas(count: int, demographic: str):
 
 
 def analyze_video(frames: list):
-     with httpx.Client() as client:
-        response = client.post(
-            f"https://api.cloudflare.com/client/v4/accounts/{ACCOUNT_ID}/ai/run/@cf/meta/llama-4-scout-17b-16e-instruct",
-            headers={"Authorization": f"Bearer {API_TOKEN}"},
-             json={
-                "messages": [
-                    {
-                        "role": "user",
-                        "content": [
-                            {
-                                "type": "image_url",
-                                "image_url": {
-                                    "url": f"data:image/jpeg;base64,{frames[0]}"
+     try:
+        with httpx.Client() as client:
+            response = client.post(
+                f"https://api.cloudflare.com/client/v4/accounts/{ACCOUNT_ID}/ai/run/@cf/meta/llama-4-scout-17b-16e-instruct",
+                headers={"Authorization": f"Bearer {API_TOKEN}"},
+                json={
+                    "messages": [
+                        {
+                            "role": "user",
+                            "content": [
+                                {
+                                    "type": "image_url",
+                                    "image_url": {
+                                        "url": f"data:image/jpeg;base64,{frames[0]}"
+                                    }
+                                },
+                                {
+                                    "type": "text",
+                                    "text": "Analyze this social media reel frame. Describe the main topic, mood, target audience and content category in 2-3 sentences."
                                 }
-                            },
-                            {
-                                "type": "text",
-                                "text": "Analyze this social media reel frame. Describe the main topic, mood, target audience and content category in 2-3 sentences."
-                            }
-                        ]
-                    }
-                ]
-            },
-            timeout=60.0
-        )
-        result = response.json()
-        print("VISION RESULT:", result)
-        return  result["result"]["response"]
+                            ]
+                        }
+                    ]
+                },
+                timeout=60.0
+            )
+            result = response.json()
+            print("VISION RESULT:", result)
+            result["result"]["choices"][0]["message"]["content"]
+     except Exception as e:
+        print("VISION ERROR:", e)
+        return None
      
 def transcribe_audio(audio_path: str):
     with open(audio_path, "rb") as f:

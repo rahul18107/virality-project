@@ -19,7 +19,14 @@ def extract_frames(video_path: str, num_frames: int = 4):
         video.set(cv2.CAP_PROP_POS_FRAMES, i * interval)
         success, frame = video.read()
         if success:
-            _, buffer = cv2.imencode('.jpg', frame)
+            # resize to max 512px wide to reduce payload size
+            h, w = frame.shape[:2]
+            if w > 512:
+                scale = 512 / w
+                frame = cv2.resize(frame, (512, int(h * scale)))
+            
+            # encode with lower quality to reduce size
+            _, buffer = cv2.imencode('.jpg', frame, [cv2.IMWRITE_JPEG_QUALITY, 60])
             frame_base64 = base64.b64encode(buffer).decode('utf-8')
             frames.append(frame_base64)
     
