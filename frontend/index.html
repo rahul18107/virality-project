@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Virality Predictor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+      *, *::before, *::after { box-sizing: border-box; }
+      html, body { margin: 0; padding: 0; }
+
+      .page { width: 100%; margin: 0 auto; padding-left: 32px; padding-right: 32px; }
+      .page--narrow { max-width: 1080px; }
+      .page--wide { max-width: 1520px; }
+
+      /* setup screen: dropzone | settings */
+      .split {
+        display: grid;
+        grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+        gap: 24px;
+        align-items: stretch;
+      }
+      @media (max-width: 900px) { .split { grid-template-columns: 1fr; } }
+
+      /* results screen: graph | persona, sits below the inputs */
+      .graph-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 300px;
+        gap: 20px;
+        align-items: stretch;
+      }
+      @media (max-width: 900px) { .graph-row { grid-template-columns: 1fr; } }
+
+      @keyframes wordIn {
+        from { opacity: 0; transform: translateY(4px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+      .loading-word {
+        display: inline-block;
+        animation: wordIn 0.35s ease;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .loading-word { animation: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
