@@ -79,6 +79,7 @@ async def run_simulation(video: UploadFile = File(...),
         all_waves.append({
             "wave": wave_number,
             "personas_shown": current_count,
+            "personas_reacted": len(reactions),
             "score": wave_score,
             "reactions": reactions
         })
@@ -91,14 +92,23 @@ async def run_simulation(video: UploadFile = File(...),
         current_count = current_count * 2
         wave_number += 1
     
-    # final virality based on last wave
-    final_score = all_waves[-1]["score"]
+    # overall virality = reach-weighted average across every wave, not just the
+    # last one. pooling the raw reactions gives that for free: each rate becomes
+    # a reaction-weighted mean, and the score is linear in those rates. weighting
+    # by reactions received (not personas requested) keeps waves where the model
+    # returned fewer reactions than asked from being over-counted.
+    all_reactions = [r for w in all_waves for r in w["reactions"]]
+    final_score = calculate_virality_score(all_reactions)
+
+    peak_wave = max(all_waves, key=lambda w: w["score"]["score"])
     total_reached = sum(w["personas_shown"] for w in all_waves)
-    
+
     return {
         "content": video.filename,
         "total_waves": len(all_waves),
         "total_personas_reached": total_reached,
+        "total_reactions_collected": len(all_reactions),
         "final_virality": final_score,
+        "peak_virality": {"wave": peak_wave["wave"], **peak_wave["score"]},
         "waves": all_waves
     }

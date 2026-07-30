@@ -89,7 +89,7 @@ def analyze_video(frames: list):
             )
             result = response.json()
             print("VISION RESULT:", result)
-            result["result"]["choices"][0]["message"]["content"]
+            return result["result"]["choices"][0]["message"]["content"]
      except Exception as e:
         print("VISION ERROR:", e)
         return None
