@@ -61,6 +61,10 @@ def generate_personas(count: int, demographic: str):
 
 
 def analyze_video(frames: list):
+     if not frames:
+        print("VISION ERROR: no frames extracted from video")
+        return None
+
      try:
         with httpx.Client() as client:
             response = client.post(
@@ -89,25 +93,50 @@ def analyze_video(frames: list):
             )
             result = response.json()
             print("VISION RESULT:", result)
-            return result["result"]["choices"][0]["message"]["content"]
+
+            # on failure Cloudflare returns success=false with an empty result —
+            # log the real message instead of letting it surface as a KeyError
+            if not result.get("success"):
+                print("VISION ERROR:", result.get("errors") or "unknown error")
+                return None
+
+            choices = result.get("result", {}).get("choices") or []
+            if not choices:
+                print("VISION ERROR: no choices in response")
+                return None
+
+            return choices[0]["message"]["content"]
      except Exception as e:
         print("VISION ERROR:", e)
         return None
      
-def transcribe_audio(audio_path: str):
+def transcribe_audio(audio_path: str, language: str = "en"):
+    # extract_audio returns None when the upload has no audio track
+    if not audio_path:
+        return None
+
     with open(audio_path, "rb") as f:
-        audio_bytes = f.read()
-    
+        audio_b64 = base64.b64encode(f.read()).decode()
+
+    # turbo model + explicit language — the base whisper model auto-detects and
+    # errors out on mixed-language audio (e.g. Hinglish reels)
     with httpx.Client() as client:
         response = client.post(
-            f"https://api.cloudflare.com/client/v4/accounts/{ACCOUNT_ID}/ai/run/@cf/openai/whisper",
-            headers={
-                "Authorization": f"Bearer {API_TOKEN}",
-                "Content-Type": "application/octet-stream"
+            f"https://api.cloudflare.com/client/v4/accounts/{ACCOUNT_ID}/ai/run/@cf/openai/whisper-large-v3-turbo",
+            headers={"Authorization": f"Bearer {API_TOKEN}"},
+            json={
+                "audio": audio_b64,
+                "task": "transcribe",
+                "language": language
             },
-            content=audio_bytes,
             timeout=120.0
         )
         result = response.json()
         print("WHISPER RESULT:", result)
-        return result["result"]["text"]
+
+        if not result.get("success"):
+            errors = result.get("errors") or [{"message": "unknown error"}]
+            print("WHISPER ERROR:", errors)
+            return None
+
+        return result.get("result", {}).get("text")

@@ -3,11 +3,9 @@ from fastapi import APIRouter,UploadFile, File, Form
 from pydantic import BaseModel
 from services.reaction_service import get_batch_reactions
 from services.ai_service import generate_personas,analyze_video,transcribe_audio
-from services.video_service import extract_frames, extract_audio
+from services.video_service import extract_frames, extract_audio, save_upload, cleanup
 from services.scoring_service import calculate_virality_score
 import json
-import shutil
-import os
 
 router = APIRouter()
 
@@ -20,23 +18,22 @@ async def run_simulation(video: UploadFile = File(...),
 
 
     # step 1: save video temporarily
-    temp_path = f"temp_{video.filename}"
-    with open(temp_path, "wb") as buffer:
-        shutil.copyfileobj(video.file, buffer)
-    
-    # step 2: analyze video
-    frames = extract_frames(temp_path)
-    visual_description = analyze_video(frames)
-    
-    audio_path = extract_audio(temp_path)
-    transcript = transcribe_audio(audio_path)
-    
+    temp_path = save_upload(video)
+    audio_path = None
+
+    try:
+        # step 2: analyze video
+        frames = extract_frames(temp_path)
+        visual_description = analyze_video(frames)
+
+        audio_path = extract_audio(temp_path)
+        transcript = transcribe_audio(audio_path)
+    finally:
+        # always delete temp files, even if the analysis above raised
+        cleanup(temp_path, audio_path)
+
     full_description = f"Visual: {visual_description} | Audio: {transcript}"
-    
-    # cleanup temp files
-    os.remove(temp_path)
-    os.remove(audio_path)
-    
+
     content = {
         "title": video.filename,
         "description": full_description,
