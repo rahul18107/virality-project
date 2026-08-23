@@ -78,7 +78,7 @@ export default function App() {
     const id = setInterval(() => {
       i = (i + 1) % LOADING_WORDS.length;
       setLoadingWord(LOADING_WORDS[i]);
-    }, 8000);
+    }, 4000);
     return () => clearInterval(id);
   }, [loading]);
 
