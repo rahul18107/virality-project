@@ -1,12 +1,12 @@
-# Virality Project
+# 🔮 Virality Predictor
 
-Simulates how a piece of content spreads across a network of AI personas, and scores its
-virality. FastAPI backend + React/Vite frontend in one repo.
+> Simulate how your content spreads across an AI persona network — and get a virality score.
 
-```
-backend/    FastAPI app (personas, content, simulate routes)
-frontend/   React + Vite UI with a ReactFlow spread graph
-```
+![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=flat&logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat&logo=fastapi&logoColor=white)
+![React](https://img.shields.io/badge/React-Vite-61DAFB?style=flat&logo=react&logoColor=black)
+![Cloudflare Workers AI](https://img.shields.io/badge/Cloudflare-Workers_AI-F38020?style=flat&logo=cloudflare&logoColor=white)
+![ReactFlow](https://img.shields.io/badge/ReactFlow-Spread_Graph-FF0072?style=flat)
 
 ## Backend
 
