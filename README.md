@@ -9,21 +9,13 @@
 
 ## ✨ Features
 
-- 🎬 **Multi-modal input** — upload a video, image, or text and the system extracts content automatically
-- 🤖 **AI persona simulation** — multiple personas analyze your content and react independently
-- 📊 **Virality scoring** — each persona rates the content, averaged into an overall virality score
-- 🕸️ **Spread graph** — interactive ReactFlow graph showing how content propagates across persona nodes
-- 👤 **Persona detail panel** — click any node to see that persona's individual reaction and score
+- 🎬 **Multi-modal input** 
+- 🤖 **AI persona simulation**
+- 📊 **Virality scoring** 
+- 🕸️ **Spread graph**
+- 👤 **Persona detail panel**
 
-## ⚙️ How It Works
 
-1. **Upload content** — drop in a video, image, or text clip
-2. **Frame extraction** — backend extracts frames from video using `ffmpeg`
-3. **Vision analysis** — Cloudflare Workers AI analyzes the frames for visual and audio context
-4. **Persona generation** — a set of AI personas are created, each with unique traits and preferences
-5. **Simulation** — each persona independently reacts to the content and assigns a score
-6. **Scoring** — individual scores are averaged into a final virality score
-7. **Spread graph** — results visualized as a ReactFlow graph with persona nodes and share edges
 
 ## 🔧 Tech Stack
 
