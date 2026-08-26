@@ -1,42 +1,44 @@
+
 # 🔮 Virality Predictor
 
 > Simulate how your content spreads across an AI persona network — and get a virality score.
 
-![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=flat&logo=python&logoColor=white)
-![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat&logo=fastapi&logoColor=white)
-![React](https://img.shields.io/badge/React-Vite-61DAFB?style=flat&logo=react&logoColor=black)
-![Cloudflare Workers AI](https://img.shields.io/badge/Cloudflare-Workers_AI-F38020?style=flat&logo=cloudflare&logoColor=white)
-![ReactFlow](https://img.shields.io/badge/ReactFlow-Spread_Graph-FF0072?style=flat)
+## 🖼️ Overview
 
-## Backend
+![Virality Predictor Demo](./assets/demo.png)
 
-Requires Python 3.11+ and `ffmpeg` on your PATH (used for audio extraction from video).
+## ✨ Features
 
-```bash
-cd backend
-python -m venv .venv
-.venv/Scripts/activate        # macOS/Linux: source .venv/bin/activate
-pip install -r requirements.txt
-cp .env.example .env          # then fill in your API keys
-uvicorn main:app --reload     # http://localhost:8000
-```
+- 🎬 **Multi-modal input** — upload a video, image, or text and the system extracts content automatically
+- 🤖 **AI persona simulation** — multiple personas analyze your content and react independently
+- 📊 **Virality scoring** — each persona rates the content, averaged into an overall virality score
+- 🕸️ **Spread graph** — interactive ReactFlow graph showing how content propagates across persona nodes
+- 👤 **Persona detail panel** — click any node to see that persona's individual reaction and score
 
-## Frontend
+## ⚙️ How It Works
 
-Requires Node 18+.
+1. **Upload content** — drop in a video, image, or text clip
+2. **Frame extraction** — backend extracts frames from video using `ffmpeg`
+3. **Vision analysis** — Cloudflare Workers AI analyzes the frames for visual and audio context
+4. **Persona generation** — a set of AI personas are created, each with unique traits and preferences
+5. **Simulation** — each persona independently reacts to the content and assigns a score
+6. **Scoring** — individual scores are averaged into a final virality score
+7. **Spread graph** — results visualized as a ReactFlow graph with persona nodes and share edges
 
-```bash
-cd frontend
-npm install
-npm run dev                   # http://localhost:5173
-```
+## 🔧 Tech Stack
 
-The dev server proxies `/api/*` to `http://localhost:8000`, so run the backend first.
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white)
+![React](https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
+![ReactFlow](https://img.shields.io/badge/ReactFlow-FF0072?style=flat-square&logo=react&logoColor=white)
+![Cloudflare](https://img.shields.io/badge/Cloudflare_Workers_AI-F38020?style=flat-square&logo=cloudflare&logoColor=white)
 
-## API
 
-| Method | Route           | Description                                  |
-| ------ | --------------- | -------------------------------------------- |
-| POST   | `/simulate/run` | Run the full simulation on uploaded content  |
-|        | `/personas/*`   | Persona generation and retrieval             |
-|        | `/content/*`    | Content analysis                             |
+
+> The dev server proxies `/api/*` to `http://localhost:8000` — run the backend first.
+
+## 🗺️ Roadmap
+
+- [ ] Ocean graph visualization
+- [ ] Knowledge graph for persona generation
