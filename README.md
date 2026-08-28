@@ -3,21 +3,21 @@
 
 **Simulate how your content spreads across an AI persona network — and get a virality score.**
 
-## 🖼️ Overview
+##  Overview
 
 ![Virality Predictor Demo](./assets/demo.png)
 
-## ✨ Features
+##  Features
 
-- 🎬 **Multi-modal input** 
-- 🤖 **AI persona simulation**
-- 📊 **Virality scoring** 
-- 🕸️ **Spread graph**
-- 👤 **Persona detail panel**
+-  **Multi-modal input** 
+-  **AI persona simulation**
+-  **Virality scoring** 
+-  **Spread graph**
+-  **Persona detail panel**
 
 
 
-## 🔧 Tech Stack
+##  Tech Stack
 
 ![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white)
@@ -30,7 +30,7 @@
 
 > The dev server proxies `/api/*` to `http://localhost:8000` — run the backend first.
 
-## 🗺️ Roadmap
+##  Roadmap
 
 - [ ] Ocean graph visualization
 - [ ] Knowledge graph for persona generation
