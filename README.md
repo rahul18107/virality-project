@@ -1,14 +1,10 @@
-<img width="1916" height="1032" alt="Untitleddesign-ezgif com-optimize" src="https://github.com/user-attachments/assets/cd76ccdb-e0fe-4c70-b9a2-a04bafedb793" />
-
-
-
 # Virality Predictor
 
 **Simulate how your content spreads across an AI persona network — and get a virality score.**
 
 ##  Overview
 
-<img width="1916" height="1032" alt="Untitleddesign-ezgif com-optimize" src="https://github.com/user-attachments/assets/cd76ccdb-e0fe-4c70-b9a2-a04bafedb793" />
+![Demo Animation](./assets/Untitleddesign-ezgif.com-optimize.gif)
 
 
 ##  Features
