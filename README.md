@@ -1,3 +1,4 @@
+<img width="1916" height="1032" alt="Untitleddesign-ezgif com-optimize" src="https://github.com/user-attachments/assets/0ae2a37c-fc74-4e70-9450-4734c749de5a" />
 
 # Virality Predictor
 
@@ -5,7 +6,8 @@
 
 ##  Overview
 
-![Virality Predictor Demo](./assets/demo.png)
+<img width="1916" height="1032" alt="Untitleddesign-ezgif com-optimize" src="https://github.com/user-attachments/assets/cd76ccdb-e0fe-4c70-b9a2-a04bafedb793" />
+
 
 ##  Features
 
