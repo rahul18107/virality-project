@@ -4,7 +4,7 @@
 
 ##  Overview
 
-![Demo Animation](./assets/Untitleddesign-ezgif.com-optimize.gif)
+![Demo Animation](./assets/download(1).gif)
 
 
 ##  Features
